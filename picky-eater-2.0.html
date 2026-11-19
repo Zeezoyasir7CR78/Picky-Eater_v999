@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Picky Eater</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#F5F3F8;--s:#fff;--ink:#1D1530;--mut:#6B647F;--ac:#F2A81D;--acink:#2A1D00;--pl:#2B1E47;--plt:#fff;--ln:#E3DEEB;--ok:#4F8F5E;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#140E22;--s:#201833;--ink:#F3EFFA;--mut:#A79FBD;--pl:#3A2A63;--ln:#33294B;--ok:#7CC18B;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#140E22;--s:#201833;--ink:#F3EFFA;--mut:#A79FBD;--pl:#3A2A63;--ln:#33294B;--ok:#7CC18B;color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:500 15px/1.45 'Bricolage Grotesque','IBM Plex Sans Arabic',system-ui,sans-serif;background-color:var(--bg)}
+button,input{font:inherit;color:inherit}button{cursor:pointer;border:0;background:none}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+#app{max-width:480px;margin:0 auto;padding:14px 16px 96px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.logo{font-weight:800;font-size:22px;letter-spacing:-.02em}
+.pill{border:1px solid var(--ln);background:var(--s);border-radius:99px;padding:6px 14px;font-weight:700}
+h2{font-size:24px;letter-spacing:-.02em;margin:6px 0 12px;font-weight:800}
+.hero{background:var(--pl);color:var(--plt);border-radius:28px;padding:22px 18px 18px;margin-bottom:16px}
+.hero h1{font-size:30px;line-height:1.1;letter-spacing:-.03em;margin:0 0 14px;font-weight:800}
+.row{display:flex;gap:8px}
+.hero input,.add input{flex:1;min-width:0;border-radius:16px;border:0;padding:13px 14px;background:rgba(255,255,255,.14);color:#fff}
+.hero input::placeholder{color:rgba(255,255,255,.65)}
+.go{background:var(--ac);color:var(--acink);border-radius:16px;padding:0 18px;font-weight:800}
+.note{margin-top:12px;font-size:14px;color:rgba(255,255,255,.85)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}
+.chip{border:1px solid var(--ln);background:var(--s);border-radius:99px;padding:7px 13px;font-size:14px}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{position:relative;background:var(--s);border-radius:22px;padding:10px 10px 12px;border:1px solid var(--ln);text-align:start;cursor:pointer}
+.em{height:92px;border-radius:15px;display:grid;place-items:center;font-size:44px;margin-bottom:9px}
+.card b{display:block;font-size:15px;line-height:1.2;margin-bottom:4px}
+.meta{display:flex;gap:10px;color:var(--mut);font-size:12.5px}
+.hb{position:absolute;inset-block-start:16px;inset-inline-end:16px;width:32px;height:32px;border-radius:50%;background:var(--s);display:grid;place-items:center}
+svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hb svg{width:17px;height:17px}.hb.on svg{fill:#E0457B;stroke:#E0457B}
+nav{position:fixed;inset-inline:0;bottom:0;background:var(--s);border-top:1px solid var(--ln);display:flex;justify-content:center;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav div{display:flex;width:100%;max-width:480px}
+nav button{flex:1;display:grid;justify-items:center;gap:2px;font-size:11.5px;color:var(--mut);padding:6px 0;border-radius:14px}
+nav button.on{color:var(--ink);font-weight:800}nav button.on svg{stroke:var(--ac);stroke-width:2.4}
+.day{background:var(--s);border:1px solid var(--ln);border-radius:20px;padding:12px 14px;margin-bottom:10px}
+.day b{display:block;margin-bottom:6px}.empty{color:var(--mut);font-size:14px}
+.it{display:flex;align-items:center;gap:10px;padding:8px 0;border-top:1px solid var(--ln)}
+.it:first-of-type{border-top:0}.it span{flex:1}
+.x{color:var(--mut);padding:4px 8px}
+.chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--ln);flex:none;display:grid;place-items:center}
+.done .chk{background:var(--ok);border-color:var(--ok)}.done span{text-decoration:line-through;color:var(--mut)}
+.chk svg{width:14px;height:14px;stroke:#fff;stroke-width:3}
+.add{display:flex;gap:8px;margin-bottom:12px}.add input{background:var(--s);border:1px solid var(--ln);color:var(--ink)}
+.btn{background:var(--ink);color:var(--bg);border-radius:16px;padding:12px 16px;font-weight:700}
+.btn.s{background:var(--s);color:var(--ink);border:1px solid var(--ln)}
+.acts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+#sh{position:fixed;inset:0;background:rgba(20,10,40,.55);display:none;align-items:flex-end;justify-content:center;z-index:20}
+#sh.open{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:480px;max-height:88%;overflow:auto;border-radius:28px 28px 0 0;padding:18px 18px calc(24px + env(safe-area-inset-bottom,0px))}
+.sheet .em{height:120px;font-size:62px}.sheet h3{font-size:24px;margin:0 0 6px;letter-spacing:-.02em}
+.sheet h4{margin:16px 0 6px;font-size:16px}.sheet ul,.sheet ol{margin:0;padding-inline-start:22px}.sheet ol li{margin-bottom:9px}.sv{color:var(--mut);font-size:13.5px;margin:0 0 6px}
+#toast{position:fixed;inset-inline:0;bottom:88px;text-align:center;pointer-events:none;opacity:0;transition:opacity .2s;z-index:30}
+#toast span{background:var(--ink);color:var(--bg);padding:9px 16px;border-radius:99px;font-weight:700}#toast.on{opacity:1}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+
+.feature-head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 10px}.feature-head h2{margin:0}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0 20px}
+.tool-card{background:var(--s);border:1px solid var(--ln);border-radius:18px;padding:13px;text-align:start;min-height:100px}
+.tool-card .ti{font-size:26px;display:block;margin-bottom:6px}.tool-card b{display:block;font-size:14px}.tool-card small,.muted{color:var(--mut);font-size:12px}
+.panel{background:var(--s);border:1px solid var(--ln);border-radius:18px;padding:13px;margin:10px 0}
+.panel input,.panel select,.panel textarea{width:100%;border:1px solid var(--ln);border-radius:12px;padding:10px;background:var(--bg);color:var(--ink);margin:5px 0 10px}
+.panel label{display:block;font-size:13px;font-weight:700}.panel textarea{min-height:70px}
+.tool-result{background:var(--bg);border-radius:13px;padding:12px;margin-top:10px}.big-emoji{text-align:center;font-size:48px;padding:10px}
+</style></head>
+<body><div id="app"><header><div class="logo">Picky Eater</div><button class="pill" id="lg" aria-label="Language"></button></header><main id="v"></main></div>
+<nav><div id="nv"></div></nav><div id="sh"></div><div id="toast"><span></span></div>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let S={lang:'en',diet:[],fav:[],plan:{},list:[],tab:'d'},AI=null;
+try{Object.assign(S,JSON.parse(localStorage.getItem('pe1')||'{}'))}catch(e){}
+const save=()=>{try{localStorage.setItem('pe1',JSON.stringify({lang:S.lang,diet:S.diet,fav:S.fav,plan:S.plan,list:S.list,gen:S.gen||[],posts:S.posts||[],ach:S.ach||[]}))}catch(e){}};
+const T={disc:['Discover','اكتشف'],plan:['Plan','الخطة'],list:['Shopping','التسوق'],fav:['Saved','المحفوظات'],me:['Profile','حسابي'],
+hi:['What are you craving tonight?','ماذا تشتهي الليلة؟'],ph:['Light, high protein, under 30 min…','خفيف، عالي البروتين، أقل من ٣٠ دقيقة…'],ask:['Ask AI','اسأل'],
+think:['Finding your picks…','أبحث عن اقتراحاتك…'],fb:['Matched from the recipe database.','النتائج من قاعدة الوصفات.'],none:['No recipes match your dietary preferences yet.','لا توجد وصفات تناسب تفضيلاتك الغذائية.'],
+min:['min','د'],ing:['Ingredients','المكونات'],how:['Method','الطريقة'],addp:['Add to plan','أضف إلى الخطة'],addl:['Add ingredients to list','أضف المكونات إلى القائمة'],
+save:['Save','احفظ'],saved:['Saved','تم الحفظ'],auto:['Auto-fill week','عبّئ الأسبوع'],wl:['Week to shopping list','الأسبوع إلى القائمة'],
+nop:['Nothing planned. Open a recipe and pick a day.','لا شيء مخطط. افتح وصفة واختر يومًا.'],newi:['Add an item','أضف عنصرًا'],plus:['Add','أضف'],clr:['Clear checked','احذف المحدد'],
+el:['Your list is empty. Add items or send a recipe’s ingredients here.','قائمتك فارغة. أضف عناصر أو أرسل مكونات وصفة.'],ef:['No saved recipes yet. Tap the heart on any recipe.','لا وصفات محفوظة. اضغط على القلب في أي وصفة.'],
+dt:['Dietary preferences','التفضيلات الغذائية'],dn:['Recipes and AI picks follow these.','الوصفات واقتراحات الذكاء الاصطناعي تتبعها.'],lang:['Language','اللغة'],added:['Added','تمت الإضافة'],kc:['kcal','سعرة']};
+const D={veg:['Vegetarian','نباتي (بيض وألبان)'],vegan:['Vegan','نباتي صرف'],gf:['Gluten-free','خالٍ من الغلوتين'],df:['Dairy-free','خالٍ من الألبان'],lc:['Low-carb','قليل الكربوهيدرات']};
+const DAYS=[['Sun','الأحد'],['Mon','الاثنين'],['Tue','الثلاثاء'],['Wed','الأربعاء'],['Thu','الخميس'],['Fri','الجمعة'],['Sat','السبت']];
+const R=[
+{id:'shak',e:'Shakshuka',a:'شكشوكة',t:25,k:380,m:'🍳',c:'#F9D9B8',d:['veg','gf','df','lc'],i:[['Eggs','بيض'],['Tomatoes','طماطم'],['Onion','بصل'],['Red pepper','فلفل أحمر'],['Cumin','كمون']],s:['Simmer onion, pepper and tomatoes with cumin, crack in eggs, cover until set.','اطهِ البصل والفلفل والطماطم مع الكمون، ثم اكسر البيض وغطِّ حتى ينضج.']},
+{id:'kab',e:'Chicken kabsa',a:'كبسة دجاج',t:55,k:620,m:'🍗',c:'#F4D8A0',d:['df'],i:[['Chicken','دجاج'],['Basmati rice','أرز بسمتي'],['Onion','بصل'],['Tomato paste','معجون طماطم'],['Kabsa spices','بهارات كبسة']],s:['Brown the chicken with onion and spices, add paste and water, then cook the rice in the broth.','حمّر الدجاج مع البصل والبهارات، أضف المعجون والماء، ثم اطبخ الأرز في المرق.']},
+{id:'fat',e:'Fattoush',a:'فتوش',t:15,k:240,m:'🥗',c:'#CFE6C4',d:['veg','vegan','df'],i:[['Cucumber','خيار'],['Tomatoes','طماطم'],['Lettuce','خس'],['Sumac','سماق'],['Pita bread','خبز بيتا']],s:['Chop the vegetables, toast the pita, toss with olive oil, lemon and sumac.','قطّع الخضار، حمّص الخبز، وقلّب مع زيت الزيتون والليمون والسماق.']},
+{id:'len',e:'Red lentil soup',a:'شوربة عدس',t:35,k:310,m:'🍲',c:'#F7C9A4',d:['veg','vegan','gf','df'],i:[['Red lentils','عدس أحمر'],['Carrot','جزر'],['Onion','بصل'],['Cumin','كمون'],['Lemon','ليمون']],s:['Cook lentils with onion and carrot until soft, blend, season with cumin and lemon.','اطبخ العدس مع البصل والجزر حتى ينضج، اخلطه، وتبّله بالكمون والليمون.']},
+{id:'sal',e:'Grilled salmon and greens',a:'سلمون مشوي مع الخضار',t:25,k:450,m:'🐟',c:'#BFE0EA',d:['gf','df','lc'],i:[['Salmon','سلمون'],['Broccoli','بروكلي'],['Lemon','ليمون'],['Olive oil','زيت زيتون'],['Garlic','ثوم']],s:['Grill salmon with garlic and lemon for 4 minutes a side, serve with steamed broccoli.','اشوِ السلمون مع الثوم والليمون ٤ دقائق لكل جهة، وقدّمه مع البروكلي المطهو بالبخار.']},
+{id:'hum',e:'Hummus power bowl',a:'طبق الحمص',t:20,k:400,m:'🧆',c:'#E9D9B0',d:['veg','vegan','df'],i:[['Chickpeas','حمص'],['Tahini','طحينة'],['Lemon','ليمون'],['Garlic','ثوم'],['Pita bread','خبز بيتا']],s:['Blend chickpeas, tahini, lemon and garlic until smooth, top with warm chickpeas and oil.','اخلط الحمص والطحينة والليمون والثوم حتى يصبح ناعمًا، وزيّنه بالحمص الدافئ وزيت الزيتون.']},
+{id:'kof',e:'Lamb kofta wraps',a:'لفائف كفتة لحم',t:35,k:540,m:'🥙',c:'#EFC2B4',d:[],i:[['Ground lamb','لحم غنم مفروم'],['Parsley','بقدونس'],['Onion','بصل'],['Flatbread','خبز مسطح'],['Yogurt','زبادي']],s:['Mix lamb with parsley and onion, shape and grill, wrap in flatbread with yogurt.','اخلط اللحم مع البقدونس والبصل، شكّله واشوِه، ولفّه في الخبز مع الزبادي.']},
+{id:'oat',e:'Date and cinnamon oats',a:'شوفان بالتمر والقرفة',t:10,k:330,m:'🥣',c:'#EAD3F0',d:['veg'],i:[['Oats','شوفان'],['Dates','تمر'],['Milk','حليب'],['Cinnamon','قرفة']],s:['Simmer oats in milk for 5 minutes, stir in chopped dates and cinnamon.','اطهِ الشوفان في الحليب ٥ دقائق، ثم أضف التمر المقطّع والقرفة.']},
+{id:'pas',e:'Creamy mushroom pasta',a:'معكرونة بالفطر والكريمة',t:25,k:520,m:'🍝',c:'#E6D2BE',d:['veg'],i:[['Pasta','معكرونة'],['Mushrooms','فطر'],['Cream','كريمة'],['Garlic','ثوم']],s:['Boil pasta, sauté mushrooms and garlic, add cream, toss together.','اسلق المعكرونة، قلّب الفطر والثوم، أضف الكريمة وامزجها معًا.']}];
+const ST={
+shak:[['Heat 2 tbsp olive oil in a wide pan over medium heat. Cook 1 diced onion and 1 diced red pepper for 6 minutes until soft.','Add 4 chopped tomatoes (or one 400 g can), 1 tsp cumin and ½ tsp salt. Simmer 10 minutes until thick and jammy.','Make 4 small wells with a spoon and crack an egg into each.','Cover and cook on low for 5–7 minutes. The whites should be set and the yolks still soft; cook longer for firm yolks.','Finish with black pepper and serve straight from the pan with bread.'],['سخّن ملعقتين كبيرتين من زيت الزيتون في مقلاة واسعة على نار متوسطة. حمّر بصلة مقطّعة وفلفلة حمراء مقطّعة ٦ دقائق حتى تذبل.','أضف ٤ حبات طماطم مفرومة (أو علبة ٤٠٠ غ) وملعقة صغيرة كمون ونصف ملعقة ملح. اتركها على نار هادئة ١٠ دقائق حتى تثخن.','اصنع ٤ حفر صغيرة بالملعقة واكسر بيضة في كل حفرة.','غطِّ واطبخ على نار هادئة ٥ إلى ٧ دقائق: البياض متماسك والصفار طري، وزد الوقت إذا أردت الصفار مستويًا.','رشّ الفلفل الأسود وقدّمها في المقلاة مع الخبز.'],2],
+kab:[['Rinse 2 cups basmati rice until the water runs clear, soak 30 minutes, then drain.','Heat 3 tbsp oil in a large pot. Brown 1 kg chicken pieces for 4 minutes per side, then set aside.','In the same pot, fry 2 sliced onions for 8 minutes until golden. Stir in 2 tbsp tomato paste and 2 tbsp kabsa spices and cook 2 minutes.','Return the chicken, add 3 cups hot water and 1 tsp salt. Cover and simmer 25 minutes until cooked through.','Lift out the chicken. Top the broth up to 3½ cups, add the rice and bring to a boil. Cover and cook on the lowest heat for 18 minutes, then rest 5 minutes.','Optional: crisp the chicken under the grill for 5 minutes. Serve on top of the rice.'],['اغسل ٢ كوب أرز بسمتي حتى يصفو الماء، انقعه ٣٠ دقيقة ثم صفّه.','سخّن ٣ ملاعق كبيرة زيت في قدر كبير وحمّر ١ كغ دجاج ٤ دقائق لكل جهة ثم أخرجه.','في القدر نفسه قلّب بصلتين مقطّعتين ٨ دقائق حتى تذهب. أضف ملعقتين كبيرتين معجون طماطم وملعقتين كبيرتين بهارات كبسة وقلّب دقيقتين.','أعد الدجاج وأضف ٣ أكواب ماء ساخن وملعقة صغيرة ملح. غطِّ واتركه على نار هادئة ٢٥ دقيقة حتى ينضج.','أخرج الدجاج وأكمل المرق إلى ٣٫٥ أكواب، أضف الأرز واتركه يغلي. غطِّ واطبخ على أهدأ نار ١٨ دقيقة ثم اتركه يرتاح ٥ دقائق.','اختياري: حمّر الدجاج تحت الشواية ٥ دقائق وقدّمه فوق الأرز.'],4],
+fat:[['Heat the oven to 200°C. Tear 1 pita into pieces, brush with 1 tbsp olive oil and bake 6–8 minutes until crisp.','Chop 3 tomatoes, 2 cucumbers and 1 head of lettuce into bite-size pieces.','Whisk 3 tbsp olive oil, the juice of 1 lemon, 1 tbsp sumac and ½ tsp salt.','Toss the vegetables with the dressing and rest 5 minutes. Add the pita right before serving so it stays crunchy.'],['سخّن الفرن إلى ٢٠٠°م. قطّع رغيف بيتا، ادهنه بملعقة كبيرة زيت زيتون واخبزه ٦ إلى ٨ دقائق حتى يقرمش.','قطّع ٣ طماطم و٢ خيار وخسّة إلى قطع صغيرة.','اخفق ٣ ملاعق كبيرة زيت زيتون وعصير ليمونة وملعقة كبيرة سماق ونصف ملعقة ملح.','قلّب الخضار مع الصلصة واتركها ٥ دقائق. أضف الخبز قبل التقديم مباشرة ليبقى مقرمشًا.'],2],
+len:[['Heat 2 tbsp oil in a pot. Cook 1 diced onion and 2 diced carrots for 6 minutes.','Stir in 1 tsp cumin for 30 seconds, then add 1 cup rinsed red lentils and 5 cups water.','Bring to a boil, then simmer 20–25 minutes until the lentils fall apart.','Blend until smooth, adding a little water if too thick. Season with ½ tsp salt.','Serve with a generous squeeze of lemon.'],['سخّن ملعقتين كبيرتين زيت في قدر. قلّب بصلة مقطّعة وجزرتين مقطّعتين ٦ دقائق.','أضف ملعقة صغيرة كمون وقلّب ٣٠ ثانية، ثم أضف كوبًا من العدس الأحمر المغسول و٥ أكواب ماء.','اتركه يغلي ثم خفّف النار واطبخ ٢٠ إلى ٢٥ دقيقة حتى يذوب العدس.','اخلطه حتى ينعم وأضف قليلًا من الماء إذا كان ثقيلًا. تبّله بنصف ملعقة صغيرة ملح.','قدّمه مع عصرة ليمون وفيرة.'],4],
+sal:[['Pat 2 salmon fillets dry. Rub with 1 tbsp olive oil, 1 grated garlic clove, lemon zest, salt and pepper.','Heat a grill pan over medium-high. Cook skin-side down 4–5 minutes, flip and cook 3–4 minutes until it flakes easily.','Steam 2 cups broccoli florets for 4–5 minutes until bright green and just tender.','Toss the broccoli with 1 tbsp olive oil, a pinch of salt and a little garlic. Serve with lemon wedges.'],['جفّف ٢ شريحة سلمون بمنديل. افركها بملعقة كبيرة زيت زيتون وفص ثوم مبشور وقشر ليمون وملح وفلفل.','سخّن مقلاة الشوي على نار متوسطة إلى عالية. اشوِ السلمون جهة الجلد ٤ إلى ٥ دقائق ثم اقلبه ٣ إلى ٤ دقائق حتى يتفتت بسهولة.','اطهُ ٢ كوب زهرات بروكلي بالبخار ٤ إلى ٥ دقائق حتى يصبح أخضر زاهيًا وطريًا.','قلّب البروكلي مع ملعقة كبيرة زيت زيتون وقليل من الملح والثوم، وقدّمه مع شرائح الليمون.'],2],
+hum:[['Drain 1 can (400 g) chickpeas and keep 3 tbsp of the liquid. Set aside ⅓ cup of chickpeas for topping.','Blend the rest with 3 tbsp tahini, the juice of 1 lemon, 1 garlic clove, ½ tsp salt and the liquid for 2–3 minutes until silky.','Warm the reserved chickpeas in a pan with 1 tsp oil for 3 minutes.','Spread the hummus in bowls, top with warm chickpeas, drizzle with olive oil and serve with warm pita.'],['صفِّ علبة حمص (٤٠٠ غ) واحتفظ بـ٣ ملاعق كبيرة من سائلها. خذ ثلث كوب من الحمص جانبًا للتزيين.','اخلط الباقي مع ٣ ملاعق كبيرة طحينة وعصير ليمونة وفص ثوم ونصف ملعقة ملح والسائل ٢ إلى ٣ دقائق حتى يصبح ناعمًا كالحرير.','دفّئ الحمص المحتفظ به في مقلاة مع ملعقة صغيرة زيت ٣ دقائق.','وزّع الحمص في الأطباق وزيّنه بالحمص الدافئ ورشّة زيت زيتون وقدّمه مع خبز بيتا دافئ.'],2],
+kof:[['Grate 1 onion and squeeze out the liquid. Finely chop ½ cup parsley.','Mix 500 g ground lamb with the onion, parsley, 1 tsp salt and ½ tsp pepper. Knead 2 minutes until sticky, then chill 20 minutes.','Shape into 12 finger-shaped pieces, on skewers if you like.','Grill or pan-fry over medium-high heat 3–4 minutes per side until browned and cooked through.','Warm the flatbread, spread with yogurt, add kofta and extra parsley, and roll up.'],['ابشر بصلة واعصرها من السائل. افرم نصف كوب بقدونس ناعمًا.','اخلط ٥٠٠ غ لحم غنم مفروم مع البصل والبقدونس وملعقة صغيرة ملح ونصف ملعقة فلفل. اعجنه دقيقتين حتى يتماسك ثم برّده ٢٠ دقيقة.','شكّله إلى ١٢ قطعة أصابع، ويمكن تسيخه على أسياخ.','اشوِه أو حمّره على نار متوسطة إلى عالية ٣ إلى ٤ دقائق لكل جهة حتى ينضج ويتحمّر.','دفّئ الخبز وادهنه بالزبادي وضع الكفتة وبقدونسًا إضافيًا ثم لُفّه.'],4],
+oat:[['Pit and chop 4 dates.','Combine ½ cup oats, 1 cup milk and a pinch of salt in a small pot over medium heat.','Simmer 5 minutes, stirring often, until creamy.','Stir in the dates and ½ tsp cinnamon, rest 1 minute, and finish with a little more cinnamon on top.'],['انزع نوى ٤ تمرات وقطّعها.','ضع نصف كوب شوفان وكوبًا من الحليب ورشّة ملح في قدر صغير على نار متوسطة.','اتركه يغلي بهدوء ٥ دقائق مع التحريك حتى يصبح كريميًا.','أضف التمر ونصف ملعقة صغيرة قرفة، اتركه دقيقة، وزيّنه بقليل من القرفة.'],1],
+pas:[['Boil 200 g pasta in well-salted water as the packet says. Keep ½ cup of the pasta water, then drain.','Slice 250 g mushrooms. Cook in a hot dry pan 5 minutes until browned, then add 1 tbsp oil.','Add 2 minced garlic cloves and cook 30 seconds.','Pour in ½ cup cream and simmer 2 minutes until slightly thick.','Add the pasta and a splash of pasta water, toss until glossy, and finish with black pepper.'],['اسلق ٢٠٠ غ معكرونة في ماء مملّح حسب التعليمات. احتفظ بنصف كوب من ماء السلق ثم صفّها.','قطّع ٢٥٠ غ فطر شرائح. حمّره في مقلاة ساخنة جافة ٥ دقائق ثم أضف ملعقة كبيرة زيت.','أضف فصّي ثوم مفرومين وقلّب ٣٠ ثانية.','اسكب نصف كوب كريمة واتركها ٢ دقيقة حتى تثخن قليلًا.','أضف المعكرونة وقليلًا من ماء السلق وقلّب حتى تلمع، ثم رشّ الفلفل الأسود.'],2]};
+const L=()=>S.lang==='ar'?1:0,tr=k=>T[k][L()],nm=r=>L()?r.a:r.e,find=id=>R.find(r=>r.id===id);
+const ok=r=>S.diet.every(d=>r.d.includes(d));
+const I={d:'<circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/>',p:'<rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/>',l:'<path d="M3 4h2l2.5 11h10L20 8H6.5"/><circle cx="9" cy="19" r="1.3"/><circle cx="17" cy="19" r="1.3"/>',f:'<path d="M12 20s-8-5-8-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 2.5C20 15 12 20 12 20z"/>',m:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/>'};
+const svg=p=>`<svg viewBox="0 0 24 24">${p}</svg>`;
+function toast(t){const e=$('#toast');e.firstChild.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1500)}
+function card(r){const f=S.fav.includes(r.id);return `<div class="card" role="button" tabindex="0" onclick="op('${r.id}')" onkeydown="if(event.key==='Enter')op('${r.id}')"><div class="em" style="background:${r.c}">${r.m}</div><b>${nm(r)}</b><div class="meta"><span>${r.t} ${tr('min')}</span><span>${r.k} ${tr('kc')}</span></div><button class="hb ${f?'on':''}" aria-label="${tr('save')}" onclick="event.stopPropagation();fav('${r.id}')">${svg(I.f)}</button></div>`}
+const grid=a=>a.length?`<div class="grid">${a.map(card).join('')}</div>`:`<p class="empty">${tr('none')}</p>`;
+const chips=()=>`<div class="chips">${Object.keys(D).map(k=>`<button class="chip ${S.diet.includes(k)?'on':''}" onclick="dt('${k}')">${D[k][L()]}</button>`).join('')}</div>`;
+const V={
+d:()=>`<section class="hero"><h1>${tr('hi')}</h1><div class="row"><input id="q" placeholder="${tr('ph')}" onkeydown="if(event.key==='Enter')ask()"><button class="go" onclick="ask()">${tr('ask')}</button></div><div class="note" id="out">${AI?esc(AI.note):''}</div></section>${chips()}<h2>${L()?'وجبات اليوم':'Today’s picks'}</h2>${grid(today())}<div class="acts"><button class="btn" onclick="newMeal()">${L()?'ابتكر وجبة جديدة بالذكاء الاصطناعي':'Create a new meal with AI'}</button></div><h2>${AI?(L()?'اقتراحاتك':'Your picks'):(L()?'كل الوصفات':'All recipes')}</h2>${grid((AI?AI.ids.map(find):R).filter(r=>r&&ok(r)))}<div class="feature-head"><h2>${L()?'اكتشف المزيد':'Explore more'}</h2><span class="muted">15 ${L()?'ميزة':'features'}</span></div><div class="tools-grid">${FEATURES.map(x=>`<button class="tool-card" onclick="tool('${x.id}')"><span class="ti">${x.e}</span><b>${L()?x.a:x.n}</b><small>${L()?x.da:x.d}</small></button>`).join('')}</div>`,
+p:()=>`<h2>${tr('plan')}</h2><div class="acts"><button class="btn" onclick="auto()">${tr('auto')}</button><button class="btn s" onclick="planList()">${tr('wl')}</button></div>`+DAYS.map((d,i)=>{const a=(S.plan[i]||[]).map(find).filter(Boolean);return `<div class="day"><b>${d[L()]}</b>${a.length?a.map((r,j)=>`<div class="it"><span onclick="op('${r.id}')">${r.m} ${nm(r)}</span><button class="x" aria-label="Remove" onclick="rmp(${i},${j})">✕</button></div>`).join(''):`<span class="empty">—</span>`}</div>`}).join('')+(Object.values(S.plan).some(a=>a.length)?'':`<p class="empty">${tr('nop')}</p>`),
+l:()=>`<h2>${tr('list')}</h2><div class="add"><input id="ni" placeholder="${tr('newi')}" onkeydown="if(event.key==='Enter')addi()"><button class="btn" onclick="addi()">${tr('plus')}</button></div>`+(S.list.length?`<div class="day">${S.list.map((x,i)=>`<div class="it ${x.c?'done':''}"><button class="chk" aria-label="Done" onclick="tg(${i})">${x.c?svg('<path d="m5 12 5 5 9-10"/>'):''}</button><span>${esc(x.n[L()])}</span><button class="x" aria-label="Remove" onclick="rl(${i})">✕</button></div>`).join('')}</div><button class="btn s" onclick="S.list=S.list.filter(x=>!x.c);save();go()">${tr('clr')}</button>`:`<p class="empty">${tr('el')}</p>`),
+f:()=>`<h2>${tr('fav')}</h2>`+(S.fav.length?grid(S.fav.map(find).filter(Boolean)):`<p class="empty">${tr('ef')}</p>`),
+m:()=>`<h2>${tr('me')}</h2><div class="day"><b>${tr('lang')}</b><div class="chips" style="margin:0"><button class="chip ${S.lang==='en'?'on':''}" onclick="lang('en')">English</button><button class="chip ${S.lang==='ar'?'on':''}" onclick="lang('ar')">العربية</button></div></div><div class="day"><b>${tr('dt')}</b><p class="empty" style="margin:0 0 10px">${tr('dn')}</p>${chips()}</div>`};
+function go(){const ar=S.lang==='ar';document.documentElement.lang=S.lang;document.documentElement.dir=ar?'rtl':'ltr';$('#lg').textContent=ar?'English':'العربية';
+$('#nv').innerHTML=[['d','disc'],['p','plan'],['l','list'],['f','fav'],['m','me']].map(([k,n])=>`<button class="${S.tab===k?'on':''}" onclick="S.tab='${k}';go();scrollTo(0,0)">${svg(I[k])}${tr(n)}</button>`).join('');$('#v').innerHTML=V[S.tab]()}
+function lang(l){S.lang=l;save();go()}$('#lg').onclick=()=>lang(S.lang==='ar'?'en':'ar');
+function dt(k){S.diet=S.diet.includes(k)?S.diet.filter(x=>x!==k):[...S.diet,k];save();go()}
+function fav(id){S.fav=S.fav.includes(id)?S.fav.filter(x=>x!==id):[...S.fav,id];save();go();if($('#sh').classList.contains('open'))op(id)}
+function addIng(r){r.i.forEach(n=>{if(!S.list.some(x=>x.n[0]===n[0]))S.list.push({n,c:false})});save()}
+function addp(id,d){(S.plan[d]=S.plan[d]||[]).push(id);save();toast(tr('added')+' · '+DAYS[d][L()]);go()}
+function rmp(d,j){S.plan[d].splice(j,1);save();go()}
+function auto(){const a=R.filter(ok).sort(()=>Math.random()-.5);if(!a.length)return toast(tr('none'));S.plan={};for(let i=0;i<7;i++)S.plan[i]=[a[i%a.length].id];save();go()}
+function planList(){Object.values(S.plan).flat().forEach(id=>addIng(find(id)));toast(tr('added'));go()}
+function addi(){const v=$('#ni').value.trim();if(!v)return;S.list.unshift({n:[v,v],c:false});save();go()}
+function tg(i){S.list[i].c=!S.list[i].c;save();go()}function rl(i){S.list.splice(i,1);save();go()}
+function op(id){const r=find(id),f=S.fav.includes(id);$('#sh').innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div class="em" style="background:${r.c}">${r.m}</div><h3>${nm(r)}</h3><div class="meta"><span>${r.t} ${tr('min')}</span><span>${r.k} ${tr('kc')}</span></div><div class="chips" style="margin:10px 0 0">${r.d.map(k=>`<span class="chip">${D[k][L()]}</span>`).join('')}</div><h4>${tr('ing')}</h4><ul>${r.i.map(n=>`<li>${n[L()]}</li>`).join('')}</ul><h4>${tr('how')}</h4><p class="sv">${L()?'يكفي '+ST[id][2]+(ST[id][2]>2?' أشخاص':ST[id][2]===2?' شخصين':' شخصًا'):'Serves '+ST[id][2]}</p><ol>${ST[id][L()].map(x=>`<li>${x}</li>`).join('')}</ol><h4>${tr('addp')}</h4><div class="chips">${DAYS.map((d,i)=>`<button class="chip" onclick="addp('${id}',${i})">${d[L()]}</button>`).join('')}</div><div class="acts"><button class="btn" onclick="addIng(find('${id}'));toast(tr('added'))">${tr('addl')}</button><button class="btn s" onclick="fav('${id}')">${f?tr('saved'):tr('save')}</button></div></div>`;$('#sh').classList.add('open')}
+$('#sh').onclick=e=>{if(e.target.id==='sh')e.currentTarget.classList.remove('open')};
+document.onkeydown=e=>{if(e.key==='Escape')$('#sh').classList.remove('open')};
+async function ask(){const q=$('#q').value.trim();if(!q)return;const out=$('#out');out.textContent=tr('think');const pool=R.filter(ok);let res=null;
+try{const sm=window.claude&&await claude.use('sample');if(sm){const j=await sm.json(`You recommend meals for a food app. User request: "${q}". Dietary needs: ${S.diet.join(', ')||'none'}. Reply language: ${L()?'Arabic':'English'}. Choose up to 4 ids ONLY from: ${pool.map(r=>r.id+'='+r.e+' ('+r.t+'min,'+r.k+'kcal)').join('; ')}. Return only JSON: {"ids":["id"],"note":"one friendly sentence explaining the picks"}`);
+const ids=(j.ids||[]).filter(i=>pool.some(r=>r.id===i));if(ids.length)res={ids,note:String(j.note||'')}}}catch(e){}
+if(!res){const w=q.toLowerCase().split(/\s+/).filter(x=>x.length>2);const sc=r=>w.reduce((s,x)=>s+(JSON.stringify([r.e,r.a,r.i]).toLowerCase().includes(x)?1:0)+((/quick|fast|light|سريع|خفيف/.test(q)&&r.t<=25)?1:0),0);
+const a=[...pool].sort((x,y)=>sc(y)-sc(x)).slice(0,4);res={ids:a.map(r=>r.id),note:tr('fb')}}
+AI=res;go()}
+function reg(g){R.push(g);ST[g.id]=[g.s[0],g.s[1],g.n]}
+const dk=()=>new Date().toISOString().slice(0,10);
+function today(){const p=R.filter(ok);if(!p.length)return[];const d=Math.floor(Date.now()/864e5),s=(d*3)%p.length;return [...new Set([...p.filter(r=>r.dt===dk()),...[0,1,2].map(i=>p[(s+i)%p.length])])].slice(0,3)}
+async function newMeal(){toast(L()?'جارٍ ابتكار وجبتك…':'Creating your meal…');
+try{const sm=window.claude&&await claude.use('sample');if(!sm)throw 0;
+const j=await sm.json(`Invent ONE new home-cookable meal for a food app, different from: ${R.map(r=>r.e).join(', ')}. Dietary needs: ${S.diet.join(', ')||'none'} (keys: veg, vegan, gf, df, lc). Prefer Middle Eastern or Mediterranean flavors but vary the dish. Return only JSON: {"e":"English name","a":"Arabic name","m":"one food emoji","t":minutes,"k":kcal per serving,"d":["diet keys it satisfies"],"n":servings,"i":[["English ingredient with amount","Arabic ingredient with amount"]],"s":[["English step with times"],["Arabic step with times"]]}. Give 5-8 ingredients and 4-6 detailed steps with amounts and timings; both step arrays must have the same length.`,{cache:false});
+const g={id:'g'+Date.now(),e:j.e,a:j.a,m:j.m||'🍽️',t:+j.t||30,k:+j.k||450,c:'#E4D6F3',d:(j.d||[]).filter(x=>D[x]),i:j.i,s:j.s,n:+j.n||2,dt:dk()};
+if(!g.e||!g.a||!Array.isArray(g.i)||!Array.isArray(g.s[0])||!Array.isArray(g.s[1]))throw 0;
+reg(g);S.gen=[g,...(S.gen||[])].slice(0,30);save();go();op(g.id)}
+catch(e){toast(L()?'الوجبات الجديدة تعمل داخل Claude حاليًا':'New AI meals work inside Claude for now')}}
+(S.gen||[]).forEach(reg);
+
+const FEATURES=[
+['scanner','📸','AI Food Scanner','ماسح الطعام','Photo + ingredient matching','صورة ومطابقة المكونات'],
+['wheel','🎡','Spin the Food Wheel','عجلة الطعام','Random meal picker','اختيار وجبة عشوائية'],
+['restaurants','📍','Restaurant Finder','دليل المطاعم','Search restaurants on Maps','ابحث عن المطاعم في الخرائط'],
+['cook','👩‍🍳','Cooking Mode','وضع الطهي','Guided recipe steps','خطوات وصفة تفاعلية'],
+['community','👥','Community','المجتمع','Share food ideas on this device','شارك أفكار الطعام على هذا الجهاز'],
+['chef','🤖','AI Personal Chef','الشيف الذكي','Personalized recipe picker','اقتراح وصفة تناسبك'],
+['pizza','🍕','Pizza Creator','صانع البيتزا','Customize your pizza','صمّم البيتزا الخاصة بك'],
+['allergy','🛡️','Allergy Filters','مرشحات الحساسية','Review recipes for ingredients','راجع مكونات الوصفات'],
+['world','🌍','World Food Explorer','مستكشف العالم','Explore cuisines','استكشف المطابخ العالمية'],
+['quiz','🧠','Food Quiz','اختبار الطعام','Test your food knowledge','اختبر معلوماتك الغذائية'],
+['budget','💰','Budget Meals','وجبات اقتصادية','Estimated meal costs in SAR','تكلفة تقديرية بالريال'],
+['family','👨‍👩‍👧','Family Planner','مخطط العائلة','Scale a recipe for more people','ضاعف مقادير الوصفة'],
+['favorites','❤️','Favourites','المفضلة','All your saved recipes','كل وصفاتك المحفوظة'],
+['challenge','🔥','Daily Challenges','تحديات يومية','Complete a cooking challenge','أكمل تحدي الطبخ'],
+['achievements','🏆','Achievements','الإنجازات','Track your milestones','تابع إنجازاتك']
+].map(([id,e,n,a,d,da])=>({id,e,n,a,d,da}));
+const trb=(en,ar)=>S.lang==='ar'?ar:en;
+function tool(id){
+ const f=FEATURES.find(x=>x.id===id);let b='';
+ if(id==='wheel')b=`<div class="big-emoji">🎡</div><button class="btn" onclick="spinMeal()">${trb('Spin!','لف العجلة!')}</button><div id="toolOut"></div>`;
+ if(id==='scanner')b=`<div class="panel"><label>${trb('Choose a food photo (preview only)','اختر صورة للطعام (معاينة فقط)')}</label><input type="file" accept="image/*" onchange="photoPreview(this)"><img id="photoPrev" style="max-width:100%;max-height:140px" hidden><p class="muted">${trb('Automatic image recognition needs an AI vision service. For now, type ingredients below to find matching recipes.','التعرف التلقائي يحتاج خدمة رؤية بالذكاء الاصطناعي. حالياً اكتب المكونات للعثور على وصفات مناسبة.')}</p><input id="scanText" placeholder="${trb('tomato, eggs, rice...','طماطم، بيض، أرز...')}"><button class="btn" onclick="matchIngredients()">${trb('Find recipes','اعثر على وصفات')}</button><div id="toolOut"></div></div>`;
+ if(id==='restaurants')b=`<div class="panel"><label>${trb('City or neighbourhood','المدينة أو الحي')}</label><input id="restArea" placeholder="${trb('Riyadh','الرياض')}"><button class="btn" onclick="openRestaurants()">${trb('Search Google Maps','ابحث في خرائط Google')}</button><p class="muted">${trb('Opens external map results.','يفتح نتائج الخرائط الخارجية.')}</p></div>`;
+ if(id==='cook')b=`<div class="panel"><label>${trb('Choose recipe','اختر وصفة')}</label><select id="cookId">${R.map(r=>`<option value="${r.id}">${esc(nm(r))}</option>`).join('')}</select><button class="btn" onclick="cookStart()">${trb('Start cooking','ابدأ الطهي')}</button><div id="cookOut"></div></div>`;
+ if(id==='community')b=`<div class="panel"><input id="postName" placeholder="${trb('Your name','اسمك')}"><textarea id="postText" placeholder="${trb('Share a recipe or food idea...','شارك وصفة أو فكرة طعام...')}"></textarea><button class="btn" onclick="publishPost()">${trb('Post','نشر')}</button></div><div id="toolOut"></div>`;
+ if(id==='chef')b=`<div class="panel"><label>${trb('Choose your mood','اختر مزاجك')}</label><select id="chefMood"><option value="quick">${trb('Quick','سريع')}</option><option value="light">${trb('Light','خفيف')}</option><option value="comfort">${trb('Comfort food','طعام مريح')}</option><option value="protein">${trb('High protein','غني بالبروتين')}</option></select><button class="btn" onclick="chefPick()">${trb('Recommend a meal','اقترح وجبة')}</button><div id="toolOut"></div></div>`;
+ if(id==='pizza')b=`<div class="panel"><label>Crust / القاعدة</label><select id="pzCrust"><option>Classic</option><option>Thin</option><option>Whole wheat</option></select><label>Sauce / الصلصة</label><select id="pzSauce"><option>Tomato</option><option>Pesto</option><option>BBQ</option></select><label>Toppings / الإضافات</label>${['Mozzarella','Mushrooms','Olives','Peppers','Chicken','Corn','Pineapple'].map(x=>`<label><input type="checkbox" class="pzTop" value="${x}" style="width:auto"> ${x}</label>`).join('')}<button class="btn" onclick="pizzaBuild()">Create pizza / اصنع البيتزا</button><div id="toolOut"></div></div>`;
+ if(id==='allergy')b=`<div class="panel"><p class="muted">${trb('Safety note: this basic filter is not a guarantee. Always check labels and cross-contact risks.','تنبيه: هذا المرشح ليس ضماناً للسلامة. تحقق دائماً من الملصقات والتلوث التبادلي.')}</p>${['Milk','Eggs','Gluten','Peanuts','Tree nuts','Fish','Shellfish','Soy','Sesame'].map(x=>`<label><input type="checkbox" class="avoid" value="${x}" style="width:auto"> ${x}</label>`).join('')}<button class="btn" onclick="allergyCheck()">Filter recipes / تصفية الوصفات</button><div id="toolOut"></div></div>`;
+ if(id==='world')b=`<div class="tools-grid">${['Middle Eastern','Mediterranean','Asian','Italian','Global'].map(x=>`<button class="tool-card" onclick="worldPick('${x}')">${x}</button>`).join('')}</div><div id="toolOut"></div>`;
+ if(id==='quiz')b=`<div class="panel"><b>${trb('What is the main ingredient in hummus?','ما المكوّن الأساسي في الحمص؟')}</b><div class="tool-actions"><button class="btn s" onclick="quizPick(false)">Lentils / عدس</button><button class="btn s" onclick="quizPick(true)">Chickpeas / حمص</button><button class="btn s" onclick="quizPick(false)">Rice / أرز</button></div><div id="toolOut"></div></div>`;
+ if(id==='budget')b=`<div class="panel"><label>${trb('Maximum estimated cost per serving (SAR)','أقصى تكلفة تقديرية للحصة (ريال)')}</label><input id="budgetNum" type="number" value="15" min="1"><button class="btn" onclick="budgetPick()">Find meals / اعثر على وجبات</button><div id="toolOut"></div><p class="muted">${trb('Estimates only, not live shop prices.','تقديرات فقط وليست أسعار متاجر مباشرة.')}</p></div>`;
+ if(id==='family')b=`<div class="panel"><label>${trb('Recipe','الوصفة')}</label><select id="familyId">${R.map(r=>`<option value="${r.id}">${esc(nm(r))}</option>`).join('')}</select><label>${trb('People','عدد الأشخاص')}</label><input id="familyNum" type="number" min="1" max="20" value="4"><button class="btn" onclick="familyPick()">Scale servings / احسب الكميات</button><div id="toolOut"></div></div>`;
+ if(id==='favorites')b=S.fav.length?`<div class="grid">${S.fav.map(find).filter(Boolean).map(card).join('')}</div>`:`<p class="empty">${tr('ef')}</p>`;
+ if(id==='challenge')b=`<div class="panel"><div class="big-emoji">🔥</div><b>${trb('Today: make a meal using five ingredients or fewer!','تحدي اليوم: حضّر وجبة بخمسة مكونات أو أقل!')}</b><p><button class="btn" onclick="finishChallenge()">${trb('Challenge completed','أكملت التحدي')}</button></p><div id="toolOut"></div></div>`;
+ if(id==='achievements')b=`<div id="toolOut"></div>`;
+ $('#sh').innerHTML=`<div class="sheet" role="dialog" aria-modal="true"><div style="display:flex;justify-content:space-between;align-items:center"><h3>${f.e} ${S.lang==='ar'?f.a:f.n}</h3><button class="pill" onclick="closeTool()">✕</button></div>${b}</div>`;
+ $('#sh').classList.add('open');
+ if(id==='community')showPosts();if(id==='achievements')showAchievements();
+}
+function closeTool(){$('#sh').classList.remove('open')}
+function showRecipe(r){return `<div class="tool-result"><div class="big-emoji">${r.m}</div><b>${esc(nm(r))}</b><p>${r.t} ${tr('min')} · ${r.k} ${tr('kc')}</p><button class="btn" onclick="closeTool();op('${r.id}')">${trb('Open recipe','افتح الوصفة')}</button></div>`}
+function spinMeal(){let a=R.filter(ok);if(!a.length)return toast(tr('none'));let r=a[Math.floor(Math.random()*a.length)];$('#toolOut').innerHTML=showRecipe(r);award('wheel')}
+function photoPreview(i){let f=i.files&&i.files[0];if(f){let x=$('#photoPrev');x.src=URL.createObjectURL(f);x.hidden=false}}
+function matchIngredients(){let w=$('#scanText').value.toLowerCase().split(/[,،\s]+/).filter(x=>x.length>2);let a=R.filter(r=>r.i.some(i=>w.some(z=>i[0].toLowerCase().includes(z)||i[1].includes(z))));$('#toolOut').innerHTML=a.length?a.map(showRecipe).join(''):'<p class="muted">No matching recipes found.</p>'}
+function openRestaurants(){let q=$('#restArea').value.trim();if(!q)return toast('Enter a city or area');window.open('https://www.google.com/maps/search/restaurants+in/'+encodeURIComponent(q),'_blank','noopener')}
+function cookStart(){let id=$('#cookId').value,s=ST[id][L()];$('#cookOut').innerHTML=`<p class="muted" id="cookCount">Step 1 / ${s.length}</p><div class="tool-result" id="cookStep">${esc(s[0])}</div><button class="btn" onclick="cookNext('${id}',1)">${trb('Next step','الخطوة التالية')}</button><button class="btn s" onclick="toast('Timer: use your device clock for now')">⏱ Timer</button>`}
+function cookNext(id,n){let s=ST[id][L()];if(n>=s.length){$('#cookStep').textContent=trb('Finished! Great cooking! 🎉','انتهى الطهي! أحسنت! 🎉');award('cook');return}$('#cookCount').textContent=`Step ${n+1} / ${s.length}`;$('#cookStep').textContent=s[n];document.querySelector('#cookOut .btn').setAttribute('onclick',`cookNext('${id}',${n+1})`)}
+function publishPost(){let t=$('#postText').value.trim();if(!t)return;S.posts=S.posts||[];S.posts.unshift({n:$('#postName').value.trim()||'Home chef',t});save();showPosts();$('#postText').value=''}
+function showPosts(){$('#toolOut').innerHTML=(S.posts||[]).map(p=>`<div class="panel"><b>${esc(p.n)}</b><p>${esc(p.t)}</p></div>`).join('')||'<p class="muted">No posts yet. / لا توجد منشورات بعد.</p>'}
+function chefPick(){let mood=$('#chefMood').value,a=R.filter(ok);if(mood==='quick')a=a.filter(r=>r.t<=25);if(mood==='light')a=a.filter(r=>r.k<=400);if(mood==='protein')a=a.filter(r=>r.k>=400);if(!a.length)a=R.filter(ok);$('#toolOut').innerHTML=showRecipe(a[Math.floor(Math.random()*a.length)])}
+function pizzaBuild(){let a=[...document.querySelectorAll('.pzTop:checked')].map(x=>x.value);$('#toolOut').innerHTML=`<div class="tool-result"><div class="big-emoji">🍕</div><b>${$('#pzCrust').value} crust · ${$('#pzSauce').value} sauce</b><p>${a.join(', ')||'No toppings selected'}</p></div>`}
+function allergyCheck(){let a=[...document.querySelectorAll('.avoid:checked')].map(x=>x.value.toLowerCase());let r=R.filter(x=>x.i.every(i=>!a.some(z=>i[0].toLowerCase().includes(z.split(' ')[0]))));$('#toolOut').innerHTML=r.map(showRecipe).join('')||'<p>No results / لا توجد نتائج</p>'}
+function worldPick(c){let ids={ 'Middle Eastern':['shak','kab','fat','hum','kof'],'Mediterranean':['fat','hum','sal'],'Asian':['kab'],'Italian':['pas'],'Global':R.map(x=>x.id)};$('#toolOut').innerHTML=R.filter(x=>ids[c].includes(x.id)).map(showRecipe).join('')}
+function quizPick(okay){$('#toolOut').textContent=okay?trb('Correct! 🎉','إجابة صحيحة! 🎉'):trb('Not quite. Hummus is made mainly from chickpeas.','ليس تماماً. الحمص مصنوع أساساً من الحمص.');if(okay)award('quiz')}
+function budgetPick(){let n=+$('#budgetNum').value,c={shak:9,kab:18,fat:8,len:6,sal:28,hum:7,kof:20,oat:5,pas:12};let a=R.filter(r=>c[r.id]<=n);$('#toolOut').innerHTML=a.map(r=>`<div class="it"><span>${r.m} ${esc(nm(r))}</span><b>~${c[r.id]} SAR</b></div>`).join('')||'No recipes in this estimate.'}
+function familyPick(){let r=find($('#familyId').value),n=Math.max(1,Math.min(20,+$('#familyNum').value||1)),base=ST[r.id][2];$('#toolOut').innerHTML=`<b>${esc(nm(r))} · ${n} ${trb('people','أشخاص')}</b><p class="muted">${trb('Multiply each listed ingredient amount by','اضرب كمية كل مكوّن في')} ${(n/base).toFixed(2)}. ${trb('Use the recipe details to adjust quantities.','استخدم تفاصيل الوصفة لتعديل الكميات.')}</p>${r.i.map(i=>`<div class="it">${esc(i[L()])}</div>`).join('')}`}
+function award(k){S.ach=S.ach||[];if(!S.ach.includes(k)){S.ach.push(k);save();toast('🏆 Achievement unlocked!')}}
+function finishChallenge(){award('challenge');$('#toolOut').textContent=trb('Challenge saved! Nice work!','تم تسجيل التحدي! أحسنت!')}
+function showAchievements(){let a=S.ach||[],names={wheel:'Food explorer',cook:'Cooking mode completed',quiz:'Quiz star',challenge:'Challenge accepted'};$('#toolOut').innerHTML=`<div class="panel"><b>${a.length} / 4 unlocked</b>${Object.keys(names).map(k=>`<div class="it">${a.includes(k)?'🏆':'🔒'} ${names[k]}</div>`).join('')}</div>`}
+
+go();
+</script></body></html>
